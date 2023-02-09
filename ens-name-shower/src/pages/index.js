@@ -18,6 +18,10 @@ export default function Home() {
    * Sets the ENS, if the current connected address has an associated ENS or else it sets
    * the address of the connected account
    */
+
+  const today = new Date();
+  const year = today.getFullYear();
+
   const setENSOrAddress = async (address, web3Provider) => {
     // Lookup the ENS related to the given address
     var _ens = await web3Provider.lookupAddress(address);
@@ -44,9 +48,9 @@ export default function Home() {
 
     // If user is not connected to the Goerli network, let them know and throw an error
     const { chainId } = await web3Provider.getNetwork();
-    if (chainId !== 5) {
-      window.alert("Change the network to Goerli");
-      throw new Error("Change network to Goerli");
+    if (chainId !== 1) {
+      window.alert("Change the network to Mainnet");
+      throw new Error("Change network to Mainnet");
     }
     const signer = web3Provider.getSigner();
     // Get the address associated to the signer which is connected to  MetaMask
@@ -94,7 +98,7 @@ export default function Home() {
       // Assign the Web3Modal class to the reference object by setting it's `current` value
       // The `current` value is persisted throughout as long as this page is open
       web3ModalRef.current = new Web3Modal({
-        network: "goerli",
+        network: "ethereum",
         providerOptions: {},
         disableInjectedProvider: false,
       });
@@ -105,17 +109,17 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>ENS Dapp</title>
+        <title>ENS Shower</title>
         <meta name="description" content="ENS-Dapp" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={styles.main}>
         <div>
           <h1 className={styles.title}>
-            Welcome to LearnWeb3 Punks {ens ? ens : address}!
+            Welcome blockchain appreciator! Your ENS is {ens ? ens : `unset`}!
           </h1>
           <div className={styles.description}>
-            Its an NFT collection for LearnWeb3 Punks.
+            You can get new ENS <a href="https://ens.domains/">here</a>!
           </div>
           {renderButton()}
         </div>
@@ -125,7 +129,7 @@ export default function Home() {
       </div>
 
       <footer className={styles.footer}>
-        Made with &#10084; by LearnWeb3 Punks
+      ©{year} Falimendikov
       </footer>
     </div>
   );
